@@ -21,13 +21,14 @@ exports.getOneProduct=(req,res,next)=>{
 }
 
 exports.getIndex = (req, res, next) => {
-  Product.fetchAll(products => {
+  Product.fetchAll().then((row,filecontent)=>{
     res.render('shop/index', {
-      prods: products,
+      prods: row,
       pageTitle: 'Shop',
       path: '/'
-    });
-  });
+    })
+  }).catch(err=> console.log(err));
+ 
 };
 
 exports.getCart = (req, res, next) => {

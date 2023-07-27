@@ -1,29 +1,34 @@
 const Product = require('../models/product');
 
 exports.getProducts = (req, res, next) => {
-  Product.fetchAll(products => {
+  Product.findAll().then(products=>{
     res.render('shop/product-list', {
       prods: products,
       pageTitle: 'All Products',
       path: '/products'
-    });
-  });
+    })
+  }).catch(err=> console.log(err));
 };
 
+//if i click on detail 
 exports.getOneProduct=(req,res,next)=>{
   const prodId=req.params.productId;
-  Product.findById(prodId,product=>{
-    res.redirect('shop/product-detail',{product:product,
+
+  Product.findByPk(prodId)
+  .then(product=>{
+    res.redirect('shop/product-detail',{
+      product:product[0],
       pageTitle:product.title,
-    path:'/products'});
-  })
+    path:'/products'})
+  }).catch(err=>console.log(err));
+ 
   
 }
 
 exports.getIndex = (req, res, next) => {
-  Product.fetchAll().then((row,filecontent)=>{
+  Product.findAll().then(product=>{
     res.render('shop/index', {
-      prods: row,
+      prods: product,
       pageTitle: 'Shop',
       path: '/'
     })

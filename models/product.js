@@ -1,23 +1,27 @@
-const  db=require('../util/database')
- 
+ const Sequelize=require('sequelize');
+ const sequelize=require('../util/database');
 
-module.exports = class Product {
-  constructor(title, imageUrl, description, price) {
-    this.title = title;
-    this.imageUrl = imageUrl;
-    this.description = description;
-    this.price = price;
+ const Product=sequelize.define('product',{
+  id:{
+    type:Sequelize.INTEGER,
+    autoIncrement:true,
+    allowNull:false,
+    primaryKey:true
+  },
+  title:Sequelize.STRING,
+  price:{
+    type:Sequelize.DOUBLE,
+    allowNull:false
+  },
+  description:{
+    type:Sequelize.STRING,
+    allowNull:false
+  },
+  imageurl:{
+     type:Sequelize.TEXT('long'),
+    allowNull:false
   }
-
-  save() {
-    
-  }
-
-  static fetchAll(cb) {
-    db.execute('SELECT * FROM PRODUCTS');
-  }
-
-  static findById(id,cb){
-    
-  }
-};
+ }
+   
+ );
+ module.exports=Product;
